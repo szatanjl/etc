@@ -1,4 +1,5 @@
 DESTDIR =
+FSTAB = uefi
 
 prefix = /usr/local
 sysconfdir = $(prefix)/etc
@@ -10,7 +11,8 @@ files_static = \
 	ld.so.conf \
 	crypttab
 
-files_build =
+files_build = \
+	fstab
 
 links =
 
@@ -45,7 +47,7 @@ install-etc: $(files_static) $(files_build)
 	cd $(DESTDIR)$(sysconfdir) && mkdir -p $(dirs)
 	cp -f default/grub $(DESTDIR)$(sysconfdir)/default
 	cp -f ld.so.conf $(DESTDIR)$(sysconfdir)
-	cp -f crypttab $(DESTDIR)$(sysconfdir)
+	cp -f crypttab fstab $(DESTDIR)$(sysconfdir)
 	chmod go= $(DESTDIR)$(sysconfdir)/crypttab
 
 uninstall: uninstall-files
@@ -63,3 +65,7 @@ uninstall-etc:
 
 .in:
 	cp -f $< $@
+
+
+fstab:
+	cp -f fstab.in/$(FSTAB) $@

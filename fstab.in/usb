@@ -1,0 +1,7 @@
+# Static filesystems information.  See fstab(5) for details.
+
+# <device>      <dir>        <type>  <options>         <dump>  <fsck>
+LABEL=USB       /            ext4    defaults,noatime  0       1
+LABEL=USB-BOOT  /boot        vfat    defaults,noatime  0       2
+LABEL=USB-VAR   /var         ext4    defaults,noatime  0       2
+LABEL=USB-DATA  /home/admin  vfat    defaults,noatime,uid=admin,gid=admin,umask=077  0       2

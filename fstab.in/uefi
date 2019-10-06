@@ -1,0 +1,9 @@
+# Static filesystems information.  See fstab(5) for details.
+
+# <device>      <dir>      <type>  <options>         <dump>  <fsck>
+LABEL=ESP       /boot/efi  vfat    defaults,noatime  0       2
+LABEL=SWAP      none       swap    defaults,noatime  0       0
+LABEL=SYS       /          ext4    defaults,noatime  0       1
+LABEL=SYS-BOOT  /boot      vfat    defaults,noatime  0       2
+LABEL=SYS-VAR   /var       ext4    defaults,noatime  0       2
+LABEL=SYS-HOME  /home      ext4    defaults,noatime  0       2
