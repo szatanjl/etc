@@ -1,0 +1,15 @@
+# Sudo security policy configuration.  See sudoers(5) for details.
+# Edit this file only using `visudo` as root.  Otherwise syntax or file
+# permission errors may prevent `sudo` from working.
+
+Defaults logfile="/var/log/sudo.log", log_host, log_year, loglinelen=72
+Defaults !authenticate, !tty_tickets, timestamp_timeout=15, env_reset
+Defaults secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Defaults:root,%wheel !secure_path
+
+# User specifications
+
+root   ALL = (ALL:ALL) ALL
+%wheel ALL = (ALL:ALL) ALL
+
+#includedir /etc/sudoers.d

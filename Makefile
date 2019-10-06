@@ -21,7 +21,8 @@ files_static = \
 	crypttab \
 	securetty issue motd shells \
 	profile \
-	pacman.conf pacman.d/nop.conf
+	pacman.conf pacman.d/nop.conf \
+	sudoers
 
 files_build = \
 	fstab \
@@ -88,6 +89,8 @@ install-etc: $(files_static) $(files_build)
 	cp -f profile $(DESTDIR)$(sysconfdir)
 	cp -f pacman.conf $(DESTDIR)$(sysconfdir)
 	cp -f pacman.d/nop.conf $(DESTDIR)$(sysconfdir)/pacman.d
+	cp -f sudoers $(DESTDIR)$(sysconfdir)
+	chmod 400 $(DESTDIR)$(sysconfdir)/sudoers
 
 uninstall: uninstall-files
 
