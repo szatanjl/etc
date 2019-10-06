@@ -1,0 +1,14 @@
+# GRUB configuration.
+# See `info grub -n 'Simple configuration'` for details.
+# After changing this file run `grub-mkconfig -o /boot/grub/grub.cfg`.
+
+GRUB_DISTRIBUTOR="Arch"
+
+GRUB_DEFAULT=saved
+GRUB_SAVEDEFAULT=true
+GRUB_TIMEOUT=3
+GRUB_TIMEOUT_STYLE=menu
+
+GRUB_DISABLE_SUBMENU=y
+GRUB_DISABLE_RECOVERY=true
+GRUB_DISABLE_OS_PROBER=false

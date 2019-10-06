@@ -5,13 +5,15 @@ sysconfdir = $(prefix)/etc
 localstatedir = $(prefix)/var
 
 
-files_static =
+files_static = \
+	default/grub
 
 files_build =
 
 links =
 
-dirs =
+dirs = \
+	default
 
 
 all: $(files_static) $(files_build)
@@ -30,12 +32,15 @@ distclean: clean
 	rm -f config.mk
 
 install: install-files
+	mkdir -p $(DESTDIR)/boot/grub
+	chroot $(DESTDIR)/ grub-mkconfig -o /boot/grub/grub.cfg
 
 install-files: install-etc
 
 install-etc: $(files_static) $(files_build)
 	mkdir -p $(DESTDIR)$(sysconfdir)
 	cd $(DESTDIR)$(sysconfdir) && mkdir -p $(dirs)
+	cp -f default/grub $(DESTDIR)$(sysconfdir)/default
 
 uninstall: uninstall-files
 
