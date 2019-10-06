@@ -5,10 +5,14 @@ USER_NAME = user
 USER_UID = 1000
 USER_GID = $(USER_UID)
 USER_SHELL = /bin/sh
+ARCH = x86_64
 
 prefix = /usr/local
 sysconfdir = $(prefix)/etc
 localstatedir = $(prefix)/var
+
+pacman_cachedir = $(localstatedir)/cache/pacman
+pacman_repodir = $(localstatedir)/lib/pacman/repo
 
 
 files_static = \
@@ -16,7 +20,8 @@ files_static = \
 	ld.so.conf \
 	crypttab \
 	securetty issue motd shells \
-	profile
+	profile \
+	pacman.conf pacman.d/nop.conf
 
 files_build = \
 	fstab \
@@ -26,7 +31,8 @@ files_build = \
 links =
 
 dirs = \
-	default
+	default \
+	pacman.d
 
 
 all: $(files_static) $(files_build)
@@ -53,6 +59,19 @@ install-files: install-etc
 	mkdir -p $(DESTDIR)/home/$(USER_NAME)
 	chmod 750 $(DESTDIR)/home/$(USER_NAME)
 	chown $(USER_UID):$(USER_GID) $(DESTDIR)/home/$(USER_NAME)
+	mkdir -p $(DESTDIR)$(pacman_repodir)/custom/$(ARCH)
+	touch -a $(DESTDIR)$(pacman_repodir)/custom/$(ARCH)/custom.db \
+	         $(DESTDIR)$(pacman_repodir)/custom/$(ARCH)/custom.files
+	mkdir -p $(DESTDIR)$(pacman_repodir)/aur/$(ARCH)
+	touch -a $(DESTDIR)$(pacman_repodir)/aur/$(ARCH)/aur.db \
+	         $(DESTDIR)$(pacman_repodir)/aur/$(ARCH)/aur.files
+	mkdir -p $(DESTDIR)$(pacman_cachedir)
+	test -d $(DESTDIR)$(pacman_cachedir)/custom || \
+	ln -sf $(pacman_repodir)/custom/$(ARCH) \
+	       $(DESTDIR)$(pacman_cachedir)/custom
+	test -d $(DESTDIR)$(pacman_cachedir)/aur || \
+	ln -sf $(pacman_repodir)/aur/$(ARCH) \
+	       $(DESTDIR)$(pacman_cachedir)/aur
 
 install-etc: $(files_static) $(files_build)
 	mkdir -p $(DESTDIR)$(sysconfdir)
@@ -67,10 +86,15 @@ install-etc: $(files_static) $(files_build)
 	chmod go= $(DESTDIR)$(sysconfdir)/shadow \
 	          $(DESTDIR)$(sysconfdir)/gshadow
 	cp -f profile $(DESTDIR)$(sysconfdir)
+	cp -f pacman.conf $(DESTDIR)$(sysconfdir)
+	cp -f pacman.d/nop.conf $(DESTDIR)$(sysconfdir)/pacman.d
 
 uninstall: uninstall-files
 
 uninstall-files: uninstall-etc
+	rm -f $(DESTDIR)$(pacman_cachedir)/aur \
+	      $(DESTDIR)$(pacman_cachedir)/custom
+	-rmdir $(DESTDIR)$(pacman_cachedir)
 	-rmdir $(DESTDIR)/home/$(USER_NAME)
 
 uninstall-etc:
