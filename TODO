@@ -1,0 +1,30 @@
+boot:
+  - remove grub?
+
+filesystem:
+  - make example encrypted setup (with encrypted swap with hibernation support)
+  - configure crypttab and fstab
+
+users:
+  - add more groups? (i.e. i2c)
+  - change groups order?
+
+profile:
+  - only change PATH; do not source other files?
+
+pkg:
+  - makepkg.conf?
+
+sudo:
+  - remove sudo - change to doas or sup
+
+x:
+  - run X11 on system bootup, not on startx
+  - xinitrc, xserverrc, xsession
+
+
+release:
+  - add README
+  - change dates on all commits
+  - test all commits in order
+  - change repo to public on github
