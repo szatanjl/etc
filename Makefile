@@ -10,7 +10,8 @@ localstatedir = $(prefix)/var
 files_static = \
 	default/grub \
 	ld.so.conf \
-	crypttab
+	crypttab \
+	securetty
 
 files_build = \
 	fstab \
@@ -52,6 +53,7 @@ install-etc: $(files_static) $(files_build)
 	cp -f crypttab fstab $(DESTDIR)$(sysconfdir)
 	chmod go= $(DESTDIR)$(sysconfdir)/crypttab
 	cp -f hostname $(DESTDIR)$(sysconfdir)
+	cp -f securetty $(DESTDIR)$(sysconfdir)
 
 uninstall: uninstall-files
 

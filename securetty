@@ -1,0 +1,9 @@
+# List of secure terminals.  See securetty(5) for details.
+
+console
+tty1
+tty2
+tty3
+tty4
+tty5
+tty6
