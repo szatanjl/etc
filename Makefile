@@ -11,7 +11,7 @@ files_static = \
 	default/grub \
 	ld.so.conf \
 	crypttab \
-	securetty issue
+	securetty issue motd
 
 files_build = \
 	fstab \
@@ -53,7 +53,7 @@ install-etc: $(files_static) $(files_build)
 	cp -f crypttab fstab $(DESTDIR)$(sysconfdir)
 	chmod go= $(DESTDIR)$(sysconfdir)/crypttab
 	cp -f hostname $(DESTDIR)$(sysconfdir)
-	cp -f securetty issue $(DESTDIR)$(sysconfdir)
+	cp -f securetty issue motd $(DESTDIR)$(sysconfdir)
 
 uninstall: uninstall-files
 
