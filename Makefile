@@ -7,7 +7,8 @@ localstatedir = $(prefix)/var
 
 files_static = \
 	default/grub \
-	ld.so.conf
+	ld.so.conf \
+	crypttab
 
 files_build =
 
@@ -44,6 +45,8 @@ install-etc: $(files_static) $(files_build)
 	cd $(DESTDIR)$(sysconfdir) && mkdir -p $(dirs)
 	cp -f default/grub $(DESTDIR)$(sysconfdir)/default
 	cp -f ld.so.conf $(DESTDIR)$(sysconfdir)
+	cp -f crypttab $(DESTDIR)$(sysconfdir)
+	chmod go= $(DESTDIR)$(sysconfdir)/crypttab
 
 uninstall: uninstall-files
 

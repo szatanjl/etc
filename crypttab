@@ -1,0 +1,8 @@
+# Encrypted block devices.  See crypttab(5) for details.
+# Do not list root (/) partition here, it must be set up beforehand by
+# the initramfs (/etc/mkinitcpio.conf).
+# Do not list swap partition here if hibernation support is needed, use
+# different method of encrypting swap instead.
+
+# <name>  <device>                                   <password>                   <options>
+#example   UUID=b8ad5c18-f445-495d-9095-c9ec4f9d2f37  /etc/crypttab.d/example.key
