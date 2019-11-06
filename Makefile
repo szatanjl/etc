@@ -6,7 +6,8 @@ localstatedir = $(prefix)/var
 
 
 files_static = \
-	default/grub
+	default/grub \
+	ld.so.conf
 
 files_build =
 
@@ -34,6 +35,7 @@ distclean: clean
 install: install-files
 	mkdir -p $(DESTDIR)/boot/grub
 	chroot $(DESTDIR)/ grub-mkconfig -o /boot/grub/grub.cfg
+	chroot $(DESTDIR)/ ldconfig
 
 install-files: install-etc
 
@@ -41,6 +43,7 @@ install-etc: $(files_static) $(files_build)
 	mkdir -p $(DESTDIR)$(sysconfdir)
 	cd $(DESTDIR)$(sysconfdir) && mkdir -p $(dirs)
 	cp -f default/grub $(DESTDIR)$(sysconfdir)/default
+	cp -f ld.so.conf $(DESTDIR)$(sysconfdir)
 
 uninstall: uninstall-files
 
