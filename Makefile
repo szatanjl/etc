@@ -12,7 +12,7 @@ files_static = \
 	ld.so.conf \
 	crypttab \
 	securetty issue motd shells \
-	passwd shadow
+	passwd shadow group gshadow
 
 files_build = \
 	fstab \
@@ -55,8 +55,9 @@ install-etc: $(files_static) $(files_build)
 	chmod go= $(DESTDIR)$(sysconfdir)/crypttab
 	cp -f hostname $(DESTDIR)$(sysconfdir)
 	cp -f securetty issue motd shells $(DESTDIR)$(sysconfdir)
-	cp -f passwd shadow $(DESTDIR)$(sysconfdir)
-	chmod go= $(DESTDIR)$(sysconfdir)/shadow
+	cp -f passwd shadow group gshadow $(DESTDIR)$(sysconfdir)
+	chmod go= $(DESTDIR)$(sysconfdir)/shadow \
+	          $(DESTDIR)$(sysconfdir)/gshadow
 
 uninstall: uninstall-files
 
