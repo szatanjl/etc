@@ -11,7 +11,8 @@ files_static = \
 	default/grub \
 	ld.so.conf \
 	crypttab \
-	securetty issue motd shells
+	securetty issue motd shells \
+	passwd shadow
 
 files_build = \
 	fstab \
@@ -54,6 +55,8 @@ install-etc: $(files_static) $(files_build)
 	chmod go= $(DESTDIR)$(sysconfdir)/crypttab
 	cp -f hostname $(DESTDIR)$(sysconfdir)
 	cp -f securetty issue motd shells $(DESTDIR)$(sysconfdir)
+	cp -f passwd shadow $(DESTDIR)$(sysconfdir)
+	chmod go= $(DESTDIR)$(sysconfdir)/shadow
 
 uninstall: uninstall-files
 
