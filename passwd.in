@@ -3,3 +3,4 @@ daemon:x:1:1::/:/sbin/nologin
 bin:x:2:2::/:/sbin/nologin
 sys:x:3:3::/:/sbin/nologin
 nobody:x:99:99::/:/sbin/nologin
+@USER_NAME@:x:@USER_UID@:@USER_GID@::/home/@USER_NAME@:@USER_SHELL@

@@ -1,6 +1,10 @@
 DESTDIR =
 FSTAB = uefi
 HOSTNAME = localhost
+USER_NAME = user
+USER_UID = 1000
+USER_GID = $(USER_UID)
+USER_SHELL = /bin/sh
 
 prefix = /usr/local
 sysconfdir = $(prefix)/etc
@@ -11,12 +15,12 @@ files_static = \
 	default/grub \
 	ld.so.conf \
 	crypttab \
-	securetty issue motd shells \
-	passwd shadow group gshadow
+	securetty issue motd shells
 
 files_build = \
 	fstab \
-	hostname
+	hostname \
+	passwd shadow group gshadow
 
 links =
 
@@ -45,6 +49,9 @@ install: install-files
 	chroot $(DESTDIR)/ ldconfig
 
 install-files: install-etc
+	mkdir -p $(DESTDIR)/home/$(USER_NAME)
+	chmod 750 $(DESTDIR)/home/$(USER_NAME)
+	chown $(USER_UID):$(USER_GID) $(DESTDIR)/home/$(USER_NAME)
 
 install-etc: $(files_static) $(files_build)
 	mkdir -p $(DESTDIR)$(sysconfdir)
@@ -62,6 +69,7 @@ install-etc: $(files_static) $(files_build)
 uninstall: uninstall-files
 
 uninstall-files: uninstall-etc
+	-rmdir $(DESTDIR)/home/$(USER_NAME)
 
 uninstall-etc:
 	cd $(DESTDIR)$(sysconfdir) && \
@@ -73,7 +81,12 @@ uninstall-etc:
 .SUFFIXES: .in
 
 .in:
-	sed -e 's/@HOSTNAME@/$(HOSTNAME)/g' $< > $@
+	sed -e 's/@HOSTNAME@/$(HOSTNAME)/g' \
+	    -e 's/@USER_NAME@/$(USER_NAME)/g' \
+	    -e 's/@USER_UID@/$(USER_UID)/g' \
+	    -e 's/@USER_GID@/$(USER_GID)/g' \
+	    -e 's|@USER_SHELL@|$(USER_SHELL)|g' \
+	    $< > $@
 
 
 fstab:
