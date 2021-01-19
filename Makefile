@@ -29,11 +29,13 @@ files_build = \
 	hostname \
 	passwd shadow group gshadow
 
-links =
+links = \
+	systemd/network/99-default.link
 
 dirs = \
 	default \
-	pacman.d
+	pacman.d \
+	systemd/network
 
 
 all: $(files_static) $(files_build)
@@ -91,6 +93,7 @@ install-etc: $(files_static) $(files_build)
 	cp -f pacman.d/nop.conf $(DESTDIR)$(sysconfdir)/pacman.d
 	cp -f sudoers $(DESTDIR)$(sysconfdir)
 	chmod 400 $(DESTDIR)$(sysconfdir)/sudoers
+	ln -sf /dev/null $(DESTDIR)$(sysconfdir)/systemd/network/99-default.link
 
 uninstall: uninstall-files
 
