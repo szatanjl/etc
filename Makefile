@@ -57,6 +57,7 @@ install: install-files
 	mkdir -p $(DESTDIR)/boot/grub
 	chroot $(DESTDIR)/ grub-mkconfig -o /boot/grub/grub.cfg
 	chroot $(DESTDIR)/ ldconfig
+	chroot $(DESTDIR)/ systemd-sysusers
 
 install-files: install-etc
 	mkdir -p $(DESTDIR)/home/$(USER_NAME)
