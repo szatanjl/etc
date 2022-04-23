@@ -1,5 +1,6 @@
 DESTDIR =
 FSTAB = uefi
+HOSTNAME = localhost
 
 prefix = /usr/local
 sysconfdir = $(prefix)/etc
@@ -12,7 +13,8 @@ files_static = \
 	crypttab
 
 files_build = \
-	fstab
+	fstab \
+	hostname
 
 links =
 
@@ -49,6 +51,7 @@ install-etc: $(files_static) $(files_build)
 	cp -f ld.so.conf $(DESTDIR)$(sysconfdir)
 	cp -f crypttab fstab $(DESTDIR)$(sysconfdir)
 	chmod go= $(DESTDIR)$(sysconfdir)/crypttab
+	cp -f hostname $(DESTDIR)$(sysconfdir)
 
 uninstall: uninstall-files
 
@@ -64,7 +67,7 @@ uninstall-etc:
 .SUFFIXES: .in
 
 .in:
-	cp -f $< $@
+	sed -e 's/@HOSTNAME@/$(HOSTNAME)/g' $< > $@
 
 
 fstab:
